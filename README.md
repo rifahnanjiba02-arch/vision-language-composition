@@ -1,30 +1,32 @@
-# MACCO table reproduction
+# MACCO Table 1 evaluation
 
-This project evaluates **original CLIP** and the authors' released **MACCO-CLIP ViT-B/32** model in Google Colab. The goal is to measure their scores on all nine columns of Table 1 in the [MACCO paper](https://aclanthology.org/2026.acl-long.1490.pdf), then compare those measurements with the paper. The same evaluations provide detailed results for Tables 17–20.
+This repository is for checking the **released MACCO-CLIP ViT-B/32 checkpoint** against the MACCO paper. Run its evaluation in **one Google Colab notebook**, measure all nine entries in the MACCO row of Table 1, and keep the detailed scores that also appear in Tables 17–20.
 
-**Start with [STEPS.md](STEPS.md).** It gives the order of work, beginning with a Sugar-Crepe setup check and continuing through the remaining benchmarks. The scores shown there are paper targets; this repository has no reproduced scores yet.
+**Begin with [STEPS.md](STEPS.md).** It lists the benchmarks, scoring rules, result records, and where to save each deliverable. The paper values in that plan are targets. **No evaluation has been completed or reproduced score claimed in this repository.**
 
 ## Scope
 
-- Evaluate the released weights for original CLIP and MACCO-CLIP ViT-B/32 on ARO, Sugar-Crepe, VL-Checklist, VALSE, and What's-up.
-- Record the available ARO details for Table 17, Sugar-Crepe subsets for Table 18, VL-Checklist Relation and Attribute details for Table 19, and VALSE and What's-up components for Table 20.
-- Mark any unfinished metric **not run**. Other Table 1 model rows need their own verified checkpoints. Table 19 Object results are outside the initial scope.
-- Do **no training, fine-tuning, Pydantic setup, or extraction of this course repository in Colab**.
+- Evaluate the released **MACCO-CLIP ViT-B/32** model on Sugar-Crepe, ARO, What's-up, VL-Checklist, and VALSE. Start with Sugar-Crepe, then complete all nine Table 1 entries.
+- Retain the ARO details for Table 17, Sugar-Crepe subsets for Table 18, VL-Checklist Relation and Attribute details for Table 19, and VALSE and What's-up components for Table 20. Include Object results only if those subsets are actually evaluated.
+- Compare measured percentages with the paper values. Record the number of examples, component scores, software and model settings, and any corrections to the evaluator. Mark unfinished tests **not run**.
+- Use the [authors' evaluator definitions](https://github.com/hiker-lw/MACCO/tree/main/eval) as the reference for preprocessing and scoring. The plan does not require downloading their entire repository.
 
-## What belongs in this repository
+There is **no training, original-CLIP baseline run, Pydantic setup, or extraction of this course repository into Colab** in the current plan. Other Table 1 model rows require their own exact checkpoints and are outside this evaluation.
 
-| Path | Purpose |
+## Repository files
+
+| Path | What goes there |
 | --- | --- |
-| [STEPS.md](STEPS.md) | Step-by-step Colab and reporting plan |
-| notebooks/01_MACCO_Table1_Evaluation.ipynb | Working Colab notebook to save here after creating it; this file does not exist yet |
-| results/ | Measured comparison CSVs and relevant full logs; currently empty |
+| [STEPS.md](STEPS.md) | Complete Colab and reporting plan |
+| scripts/MACCO_Table1_Evaluation.ipynb | The single Colab notebook, saved here when it is ready |
+| results/ | Table 1 comparison CSV, available Tables 17–20 comparisons, small logs, and run settings |
 
-Create **notebooks/** when you save the first notebook from Colab. Existing **configs/**, **scripts/**, and **vendor/** placeholders came from an earlier plan and are not needed for this workflow.
+The notebook has not been added yet. **scripts/** and **results/** currently contain placeholders so their directories appear in Git.
 
-Download and extract the authors' [MACCO source ZIP](https://github.com/hiker-lw/MACCO) **directly in Colab**. Keep its complete evaluation folder, including the bundled OpenCLIP and ARO code. Download the [released B/32 checkpoint](https://huggingface.co/hiker-lw/MACCO/tree/main) and [benchmark datasets](https://huggingface.co/datasets/hiker-lw/VL-Compositionality-Benchmarks/tree/main) there as needed. Keep model files, dataset images, and downloaded archives out of GitHub.
+Keep the checkpoint, dataset images, and download caches on Colab's temporary disk under **/content**. Save the notebook and small result records as you go, since a Colab runtime can reset. Commit the finished notebook and reviewed results to this repository; keep model weights and datasets outside GitHub.
 
-## Expected results
+## Result check
 
-Run the complete Table 1 evaluation for **both** models. Save a comparison CSV with the test name, paper score, measured score, and difference in percentage points. Evaluation code may print fractions: **0.731 means 73.1%**. Preserve the detailed component scores and relevant logs for Tables 17–20, along with the model, data, software, and source details needed to understand each run.
+For each Table 1 test, record the paper score, measured score, and **measured minus paper** in percentage points. If an evaluator reports a fraction, convert it once: **0.731 = 73.1%**. Do not fill missing measurements with paper targets or use a smaller dataset sample as a full benchmark result.
 
-The Colab notebook and reviewed results are the project deliverables. No benchmark has been run or verified in this repository yet.
+Sources: [MACCO paper](https://aclanthology.org/2026.acl-long.1490.pdf), [released models](https://huggingface.co/hiker-lw/MACCO/tree/main), and [benchmark datasets](https://huggingface.co/datasets/hiker-lw/VL-Compositionality-Benchmarks/tree/main).

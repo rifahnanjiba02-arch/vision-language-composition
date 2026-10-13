@@ -19,7 +19,7 @@ env/
 .idea/
 .vscode/
 
-# Authors' downloaded source. Keep its license with the local copy.
+# Keep any locally downloaded authors' source out of this repository.
 vendor/**
 !vendor/**/
 !vendor/**/.gitkeep
