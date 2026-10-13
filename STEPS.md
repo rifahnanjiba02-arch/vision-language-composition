@@ -1,39 +1,98 @@
-1. Read the project goal in **README.md** at the repository root. Read the MACCO paper and inspect the authors' README and evaluation files before running an experiment.
+# MACCO Table Reproduction Plan
 
-2. Create a working notebook named **MACCO_evaluation_work.ipynb** in **Google Drive/MyDrive/vision-language-composition/**. Use it for Colab commands; it is not a file to add to this repository.
+**Goal:** use the authors’ trained models to reproduce table results in Colab, then save the notebooks and results to **`vision-language-composition`** on GitHub.
 
-3. Put a copy of this project in Colab at **/content/vision-language-composition/**. Confirm that **README.md**, **configs/**, **scripts/**, and **results/** are in that directory.
+**No training, course-repo extraction, or Pydantic setup is needed.**
 
-4. Download the authors' MACCO source ZIP from their GitHub repository and extract it into **/content/vision-language-composition/vendor/MACCO/**. Keep the authors' **LICENSE** inside that folder. Confirm that **vendor/MACCO/eval/evaluate_comp_benchmark.py**, **vendor/MACCO/eval/evaluate_aro_order.py**, **vendor/MACCO/eval/evaluate_vl_checklist.py**, and **vendor/MACCO/eval/open_clip/** exist. Record the source version or download date.
+## 1. Create a Colab notebook
 
-5. Select a GPU runtime in Colab, mount Drive, and create **/content/drive/MyDrive/vision-language-composition/results/** for persistent outputs.
+Name it **`01_MACCO_Table1_Evaluation.ipynb`**.
 
-6. Check Colab's Python and GPU versions, then install the evaluation packages that work with that runtime. Resolve any installation error before proceeding. Restart the session after installation, reconnect Drive, and use the authors' bundled **vendor/MACCO/eval/open_clip/** for the initial evaluation.
+Select **Runtime → Change runtime type → GPU**.
 
-7. Download **MACCO-CLIP-ViT-B-32.pt** into **/content/checkpoints/**. Record its source and file hash; keep the checkpoint outside this Git repository.
+## 2. Download the authors’ evaluation code
 
-8. Download **sugar-crepe.tar.gz** first and extract it into **/content/macco_data/**. Inspect the archive layout and confirm the final benchmark folder is **/content/macco_data/sugar-crepe/**. Check the seven subset annotation files and all referenced images, including **val2017/**.
+Open [MACCO’s GitHub repository](https://github.com/hiker-lw/MACCO), then download and extract its ZIP directly in Colab.
 
-9. Create **scripts/check_config.py** in this repository. Make it validate the source, dataset, checkpoint, results paths, model name, batch size, worker count, and seed using Pydantic.
+Keep the complete `eval/` folder, including its bundled `open_clip/` and `ARO/` folders. These contain code the evaluation scripts need.
 
-10. Create **configs/eval.json** in this repository. Set its source directory to **/content/vision-language-composition/vendor/MACCO/**, data directory to **/content/macco_data/**, checkpoint to **/content/checkpoints/MACCO-CLIP-ViT-B-32.pt**, and results directory to **/content/drive/MyDrive/vision-language-composition/results/**.
+## 3. Install the required packages
 
-11. Create **scripts/run_eval.py** in this repository. Make it call the authors' evaluators for original CLIP and released MACCO B/32, save full logs and run details, and save diffs for any evaluation-copy changes. Keep the authors' files in **vendor/MACCO/** intact.
+Install the evaluation dependencies and restart the Colab session if necessary.
 
-12. Run **scripts/check_config.py** with **configs/eval.json**. Fix missing paths or invalid settings before treating the setup as ready; this check does not produce a benchmark score.
+Confirm that the evaluation scripts import **the authors’ bundled `open_clip` implementation**.
 
-13. Run Sugar-Crepe once with original CLIP and once with MACCO B/32 through **scripts/run_eval.py**. Save each run's logs, metadata, diffs, and comparison CSV under **/content/drive/MyDrive/vision-language-composition/results/**. Check the Relation and Attribute scores against the paper.
+## 4. Download the trained model
 
-14. Add ARO Relation and Attribute annotations and images under **/content/macco_data/ARO/**. For ARO Order, also prepare the referenced COCO images under **/content/macco_data/coco/** and Flickr30k images under **/content/macco_data/ARO/flickr30k-images/**. Check the annotation paths and required language resources, then evaluate both models.
+Download **`MACCO-CLIP-ViT-B-32.pt`** from the [released model files](https://huggingface.co/hiker-lw/MACCO/tree/main?utm_source=chatgpt.com).
 
-15. Prepare the multipart VL-Checklist data under **/content/macco_data/VL_checklist/**, with **VL_checklist_datasets/** and **VL_checklist_json_data/** beneath it. Check every required image and annotation, then evaluate Relation and Attribute for both models.
+Load it once to confirm that it works before running the tests.
 
-16. Extract VALSE annotations under **/content/macco_data/VALSE/probing_data/**. Confirm that its required Sugar-Crepe and VL-Checklist images are present, then evaluate the Table 1 VALSE subsets for both models.
+## 5. Download the evaluation datasets
 
-17. Extract What's-up under **/content/macco_data/whats_up_data/**. Check the controlled, COCO-QA, and VG-QA files and images, then evaluate both models and retain all three group results.
+Prepare the five Table 1 benchmarks using the [authors’ dataset collection](https://huggingface.co/datasets/hiker-lw/VL-Compositionality-Benchmarks/tree/main):
 
-18. Create **results/table_1_comparison.csv** in this repository from the measured nine-column results for original CLIP and MACCO B/32. Create **results/table_17_aro.csv**, **results/table_18_sugar_crepe.csv**, **results/table_19_vl_checklist.csv**, and **results/table_20_valse_whats_up.csv** from the detailed logs. Include paper, measured, and difference values; mark unavailable entries **not run**.
+- ARO
+- Sugar-Crepe
+- VL-Checklist
+- VALSE
+- What’s-up
 
-19. Copy the reviewed run folders from **/content/drive/MyDrive/vision-language-composition/results/** into this repository's **results/** directory. Keep each run's full logs, environment details, checkpoint identity, source version, data sources, and evaluation-copy diffs. Write a short interpretation in **results/findings.md**.
+Download them one at a time. Confirm that the annotation files and referenced images exist. Some tests share images or require additional image folders.
 
-20. Review **.gitignore** and the files selected for commit. Commit project files and measured results; leave **vendor/MACCO/**, datasets, downloaded archives, checkpoints, and the private planning guide out of Git.
+## 6. Adjust the evaluation scripts for Colab
+
+Change the model and dataset paths to your Colab locations.
+
+Use smaller **evaluation** batches if needed. Keep the scoring rules unchanged, and document necessary corrections to the released scripts.
+
+## 7. Run the complete Table 1 evaluation
+
+Run **original CLIP and trained MACCO** across all nine columns:
+
+| Test                   | CLIP target | MACCO target |
+| ---------------------- | ----------- | ------------ |
+| ARO Relation           | 58.7        | 73.1         |
+| ARO Attribute          | 62.7        | 68.5         |
+| ARO Order              | 54.1        | 76.0         |
+| Sugar-Crepe Relation   | 68.8        | 77.1         |
+| Sugar-Crepe Attribute  | 70.8        | 79.1         |
+| VL-Checklist Relation  | 63.6        | 70.2         |
+| VL-Checklist Attribute | 67.7        | 68.7         |
+| VALSE Relation         | 70.1        | 75.3         |
+| What’s-up              | 41.8        | 43.2         |
+
+These are the paper’s reference values. Other Table 1 model rows require their exact checkpoints; we will mark those separately until the weights are verified. [aclanthology.org](https://aclanthology.org/2026.acl-long.1490.pdf?utm_source=chatgpt.com)
+
+Start with Sugar-Crepe to check the setup, then finish the remaining benchmarks.
+
+## 8. Record additional tables from the same runs
+
+Keep the detailed outputs so we can compare:
+
+| Table  | Results to record                                  |
+| ------ | -------------------------------------------------- |
+| **17** | ARO details, including COCO-Order and Flickr-Order |
+| **18** | Sugar-Crepe subset scores                          |
+| **19** | VL-Checklist Relation and Attribute details        |
+| **20** | VALSE and What’s-up component scores               |
+
+These reuse the Table 1 evaluations. Table 19’s Object results require additional evaluation beyond our initial scope. [aclanthology.org](https://aclanthology.org/2026.acl-long.1490.pdf?utm_source=chatgpt.com)
+
+## 9. Compare measured results with the paper
+
+Save a comparison CSV:
+
+| Test         | Paper score | Our score      | Difference   |
+| ------------ | ----------- | -------------- | ------------ |
+| ARO Relation | 73.1        | Measured value | Ours − paper |
+
+Convert fractions to percentages once: **`0.731 → 73.1`**.
+
+Investigate differences using the model, data, preprocessing and scoring settings. Mark unfinished tests **“not run.”**
+
+## 10. Save to your course repository
+
+From Colab, use **File → Save a copy in GitHub** and choose your repository and intended notebook folder.
+
+Also upload the comparison CSVs and relevant logs to the intended results folder. Keep model files and dataset images outside GitHub.
