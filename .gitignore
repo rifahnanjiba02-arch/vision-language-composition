@@ -1,0 +1,41 @@
+# Python and notebook-generated files
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments and secrets
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Editor and operating-system files
+.DS_Store
+.idea/
+.vscode/
+
+# Experiment data and outputs. Keep only folder placeholders in Git.
+datasets/**
+!datasets/**/
+!datasets/**/.gitkeep
+checkpoints/**
+!checkpoints/.gitkeep
+runs/**
+!runs/.gitkeep
+
+# Large model files outside the standard checkpoint folder
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Downloaded benchmark archives
+*.tar
+*.tar.gz
+*.tgz
+*.zip
