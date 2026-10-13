@@ -1,66 +1,68 @@
-# MACCO vision-language composition reproduction
+# MACCO evaluation project
 
-This repository is a workspace for reproducing **MACCO-CLIP ViT-B/32** results. CLIP connects images with text. Here, the key question is whether it can tell which caption correctly describes an image's objects, attributes, and relationships.
+This repository is for **evaluating released vision-language models**, with no training or fine-tuning. The main goal is to compare original CLIP and the released **MACCO-CLIP ViT-B/32** checkpoint on the nine benchmarks reported in Table 1 of the [MACCO paper](https://aclanthology.org/2026.acl-long.1490.pdf). CLIP matches images with text; these benchmarks test whether it recognizes objects, attributes, relationships, and caption order.
 
-The [Colab reproduction guide](notebooks/MACCO_Colab_Reproduction_Guide.ipynb) is the step-by-step experiment. It uses the [authors' MACCO code](https://github.com/hiker-lw/MACCO) at commit **97fbae1416e30eba84cc0b8209d9cb6bdedfe6ae**. This repository does not reimplement the model or its evaluators. The notebook clones the official code into **/content/MACCO** during a Colab run and creates documented evaluation copies there.
+The first practical milestone is Sugar-Crepe. After that, evaluate ARO, VL-Checklist, VALSE, and What's-up. The same runs also produce component results relevant to Tables 17–20. This repository currently contains **structure and documentation only**: no evaluation scripts, configuration, measurements, or reproduced scores have been added.
 
-## Goal and order of work
+## What will be compared
 
-1. **First milestone: evaluate released weights.** Run Sugar-Crepe with original CLIP and the released MACCO-CLIP ViT-B/32 checkpoint. Check that all images exist, save both full logs, and compare Relation and Attribute scores with the paper.
-2. **Extend Table 1 evaluation.** Add ARO, What's-up, VL-Checklist, and VALSE one at a time. Some need extra image collections or manual preparation.
-3. **Train later.** A new training run is a separate experiment. The notebook outlines its prerequisites; it does not perform complete training reproduction.
+These are the paper's Table 1 **reference scores**, not measurements from this project:
 
-The paper's Sugar-Crepe Table 1 values are **targets**, not measurements produced here:
-
-| Model | Relation | Attribute |
+| Benchmark | Original CLIP | MACCO-CLIP B/32 |
 | --- | ---: | ---: |
-| Original CLIP | 68.8 | 70.8 |
-| Released MACCO-CLIP ViT-B/32 | 77.1 | 79.1 |
+| ARO Relation | 58.7 | 73.1 |
+| ARO Attribute | 62.7 | 68.5 |
+| ARO Order | 54.1 | 76.0 |
+| Sugar-Crepe Relation | 68.8 | 77.1 |
+| Sugar-Crepe Attribute | 70.8 | 79.1 |
+| VL-Checklist Relation | 63.6 | 70.2 |
+| VL-Checklist Attribute | 67.7 | 68.7 |
+| VALSE Relation | 70.1 | 75.3 |
+| What's-up | 41.8 | 43.2 |
 
-The evaluation scripts print accuracy as a fraction: 0.771 means 77.1%. Record measured scores and differences even if they do not match the paper. No benchmark run or reproduced score is claimed here.
+Tables 17–20 contain more detailed scores from these evaluations. The first planned report covers the two model rows above and the available detail behind them. Other model rows in Table 1 require their own exact checkpoints and settings; label them **paper reference only** until those are verified. VL-Checklist Object detail is outside this first scope.
 
 ## Repository layout
 
 ~~~text
 .
-├── notebooks/
-│   └── MACCO_Colab_Reproduction_Guide.ipynb  # Experiment instructions and Colab cells
-├── datasets/                                  # Local data layout; contents ignored by Git
-│   ├── sugar-crepe/                           # First benchmark
-│   ├── ARO/                                   # ARO annotations and Flickr30k images
-│   ├── coco/                                  # COCO images needed by ARO Order/training
-│   ├── whats_up_data/                         # What's-up benchmark
-│   ├── VL_checklist/
-│   │   ├── VL_checklist_datasets/
-│   │   └── VL_checklist_json_data/
-│   └── VALSE/
-│       └── probing_data/
-├── checkpoints/                               # Model weights; ignored
-└── runs/                                      # Logs, environment details, diffs, CSVs; ignored
+├── configs/       # Future evaluation settings
+├── scripts/       # Future configuration checker and evaluation runner
+├── results/       # Measured CSVs, logs, run details, diffs and findings
+└── vendor/
+    └── MACCO/     # Local copy of the authors' source; ignored by Git
 ~~~
 
-These folders are a **local organization template**. The notebook uses explicit Colab paths: extracted benchmarks under **/content/MACCO/datasets/**, the evaluation checkpoint at **/content/MACCO/MACCO-CLIP-ViT-B-32.pt**, and persistent checkpoints and run records under **/content/drive/MyDrive/MACCO_Reproduction/**. Copying data into this repository's datasets folder does not automatically make it available to the notebook.
+The folders contain only placeholders for now. The planned Pydantic checker will validate paths, model choice and evaluation settings before a run. Validation alone does not establish that scores reproduce the paper. The planned runner will call the authors' evaluation functions, preserve their source, and save any documented adaptations as diffs.
 
-## Start in Google Colab
+The authors' source belongs in **vendor/MACCO/** during local or Colab work, including its LICENSE and complete evaluation folders. It is downloaded from the [official MACCO repository](https://github.com/hiker-lw/MACCO) as a ZIP and is ignored by this repository's Git rules. Record the source version or download date with each run. The authors' bundled **eval/open_clip/** is the implementation intended for the initial evaluation.
 
-1. Open [Google Colab](https://colab.research.google.com/), upload the notebook from **notebooks/**, and save a copy in Drive.
-2. Select **Runtime → Change runtime type → GPU**. Run cells in order. Restart the session after package installation as instructed; do not use **Run all**.
-3. Let the notebook clone and pin the official repository. Download the **B/32** checkpoint and only the Sugar-Crepe archive for the first milestone. The notebook checks model loading and data paths before scoring.
-4. Run the small diagnostic, then both full Sugar-Crepe evaluations. Only the full runs can be compared with the paper.
-5. Save the notebook with outputs. Keep each run's environment record, package list, checkpoint hash, dataset counts, source diffs, logs, and comparison CSV together in Drive. Colab's **/content** files can disappear when the session ends.
+## Where files go in Colab
 
-For later benchmarks, read the matching section of the notebook before downloading data. **ARO Order needs COCO and Flickr30k images; VALSE uses images from Sugar-Crepe and VL-Checklist.** Resolve missing images rather than skipping examples.
+| Item | Colab location | Commit here? |
+| --- | --- | --- |
+| This project | /content/vision-language-composition/ | Project files only |
+| Authors' extracted source | /content/vision-language-composition/vendor/MACCO/ | No |
+| Extracted benchmarks | /content/macco_data/ | No |
+| Released B/32 checkpoint | /content/checkpoints/ | No |
+| Persistent run outputs | /content/drive/MyDrive/vision-language-composition/results/ | Copy reviewed results into results/ |
 
-## Reproducibility rules
+A normal working notebook in Colab can run setup and evaluation commands; this repository does not include a notebook guide. Check that **vendor/MACCO/eval/evaluate_comp_benchmark.py** exists after extraction. ZIP files can add an extra parent folder.
 
-- Record the upstream commit, model and dataset revisions, checkpoint SHA-256, software versions, GPU, seed, and all evaluation script changes.
-- Keep upstream files intact. The notebook writes adapted copies and saves their diffs with the run.
-- Keep datasets, model weights, generated logs, and local environment files out of Git. The Git ignore rules cover this repository's local folders; Colab and Drive files live separately.
-- Label unfinished metrics **not run**. Report released-checkpoint evaluation separately from any model you train yourself.
+## Workflow
+
+1. Read the [paper](https://aclanthology.org/2026.acl-long.1490.pdf) and the authors' README and evaluation scripts. Prepare a GPU Colab runtime and save run outputs in Drive.
+2. Download the authors' source ZIP and the released [MACCO-CLIP ViT-B/32 checkpoint](https://huggingface.co/hiker-lw/MACCO/tree/main). Keep model weights outside Git.
+3. Set up an evaluation environment compatible with the active Colab Python version. Record installed versions and fix package errors before downloading benchmarks. Keep the authors' bundled OpenCLIP for the first evaluation.
+4. Download [benchmark data](https://huggingface.co/datasets/hiker-lw/VL-Compositionality-Benchmarks/tree/main) **one benchmark at a time**, beginning with Sugar-Crepe. Check annotation files and every referenced image before scoring. ARO Order also needs the referenced COCO and Flickr30k images; VALSE depends on Sugar-Crepe and VL-Checklist image folders.
+5. When the project scripts and settings have been added, validate the configuration, then run each benchmark with both original CLIP and MACCO B/32. Preserve full logs and the detailed component scores for Tables 17–20.
+6. Compare measured percentages with the paper values. Save the score differences, source changes, package versions, GPU, seed, checkpoint identity, data sources, and a short findings note in **results/**. Mark any unrun metric **not run**.
+
+Evaluation scripts may print accuracies as fractions: **0.731 means 73.1%**. Differences from paper values should be reported in percentage points. A successful setup check or small diagnostic is not a full benchmark result.
 
 ## Sources
 
 - [MACCO paper](https://aclanthology.org/2026.acl-long.1490.pdf)
-- [Official MACCO repository](https://github.com/hiker-lw/MACCO)
-- [Released checkpoints](https://huggingface.co/hiker-lw/MACCO/tree/main)
-- [Benchmark archives](https://huggingface.co/datasets/hiker-lw/VL-Compositionality-Benchmarks/tree/main)
+- [Authors' source](https://github.com/hiker-lw/MACCO)
+- [Released model files](https://huggingface.co/hiker-lw/MACCO/tree/main)
+- [Benchmark files](https://huggingface.co/datasets/hiker-lw/VL-Compositionality-Benchmarks/tree/main)
