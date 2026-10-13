@@ -4,13 +4,13 @@
 
 Start fresh in Google Colab. Load the released MACCO model, evaluate it on the required datasets, and compare all nine entries in its Table 1 row with the paper. Keep the detailed scores for Tables 17–20 from the same evaluations.
 
-Use one Colab notebook. No training, cloning, extraction of your course repository, Pydantic setup, or full download of the authors' repository is required. Small evaluation functions must still follow the paper's preprocessing and scoring rules.
+Use one Colab notebook. It downloads only the needed evaluation files from a pinned authors' commit and the required benchmark data into Colab. No training, repository cloning, extraction of your course repository, or Pydantic setup is needed. Evaluation functions must still follow the paper's preprocessing and scoring rules.
 
 Your GitHub repository is `vision-language-composition`. It is the destination for the finished notebook and results, not something you need to load into Colab first.
 
 ## Step 1 Create the working notebook
 
-- Create a fresh Colab notebook named `MACCO_Table1_Evaluation.ipynb`.
+- Open `scripts/MACCO_Table1_Evaluation.ipynb` in Colab and save your own copy.
 - Select a GPU runtime.
 - Save the notebook so its outputs can be retained as you work.
 - Work through one test at a time. Keep the same notebook for all nine results.
@@ -30,10 +30,10 @@ Your GitHub repository is `vision-language-composition`. It is the destination f
 - Do not download B/16, L/14 or SigLIP for the main Table 1 row.
 - Do not train or fine-tune the model.
 
-## Step 4 Keep large files off Drive and GitHub
+## Step 4 Keep large files off GitHub
 
 - Keep the checkpoint, download cache and extracted images on Colab's temporary disk under `/content`.
-- Save only the notebook, score records and small logs to Drive or GitHub.
+- Save the notebook and small results from Colab to your computer before the runtime ends. The notebook creates a ZIP under `/content/macco_results` for this purpose.
 - Download one benchmark or required image component at a time.
 - Reuse images shared by different tests rather than making duplicate copies.
 - Remove a compressed archive when extraction has succeeded and the extracted data are usable. Remember that download caches can also retain archive copies.
@@ -143,11 +143,11 @@ Do not add training-dependent ablation or probing experiments to this evaluation
 | Repository folder | Deliverable |
 |---|---|
 | `scripts/` | `MACCO_Table1_Evaluation.ipynb`, including the measured outputs |
-| `results/` | Table 1 comparison CSV, additional comparison CSVs, small logs and run settings |
+| `results/` | Table 1 comparison CSV, Tables 17–20 component CSVs, ARO category CSVs and run settings |
 | `configs/` | Optional settings file; it can stay empty for this notebook workflow |
 
-- Save the notebook from Colab to the intended GitHub folder when ready.
-- Upload the small result files to `results/`.
+- Download the finished notebook from Colab and place it in `scripts/`.
+- Extract the results ZIP and place the small result files in `results/`.
 - Keep datasets and checkpoint files outside GitHub.
 - Include the checkpoint filename, dataset sources, software versions, random seed and any evaluator corrections in the experiment record.
 
@@ -158,4 +158,4 @@ Do not add training-dependent ablation or probing experiments to this evaluation
 - [Benchmark data](https://huggingface.co/datasets/hiker-lw/VL-Compositionality-Benchmarks/tree/main)
 - [Authors' evaluator definitions](https://github.com/hiker-lw/MACCO/tree/main/eval)
 
-The evaluator definitions are references for matching the paper's protocol. This plan does not require downloading the entire authors' repository.
+The notebook downloads the needed files from a pinned authors' commit so it can import their evaluator classes directly.

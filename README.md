@@ -9,7 +9,7 @@ This repository is for checking the **released MACCO-CLIP ViT-B/32 checkpoint** 
 - Evaluate the released **MACCO-CLIP ViT-B/32** model on Sugar-Crepe, ARO, What's-up, VL-Checklist, and VALSE. Start with Sugar-Crepe, then complete all nine Table 1 entries.
 - Retain the ARO details for Table 17, Sugar-Crepe subsets for Table 18, VL-Checklist Relation and Attribute details for Table 19, and VALSE and What's-up components for Table 20. Include Object results only if those subsets are actually evaluated.
 - Compare measured percentages with the paper values. Record the number of examples, component scores, software and model settings, and any corrections to the evaluator. Mark unfinished tests **not run**.
-- Use the [authors' evaluator definitions](https://github.com/hiker-lw/MACCO/tree/main/eval) as the reference for preprocessing and scoring. The plan does not require downloading their entire repository.
+- Use the [authors' evaluator definitions](https://github.com/hiker-lw/MACCO/tree/main/eval) for preprocessing and scoring. The notebook downloads only the needed evaluation files from a pinned commit.
 
 There is **no training, original-CLIP baseline run, Pydantic setup, or extraction of this course repository into Colab** in the current plan. Other Table 1 model rows require their own exact checkpoints and are outside this evaluation.
 
@@ -18,12 +18,12 @@ There is **no training, original-CLIP baseline run, Pydantic setup, or extractio
 | Path | What goes there |
 | --- | --- |
 | [STEPS.md](STEPS.md) | Complete Colab and reporting plan |
-| scripts/MACCO_Table1_Evaluation.ipynb | The single Colab notebook, saved here when it is ready |
-| results/ | Table 1 comparison CSV, available Tables 17–20 comparisons, small logs, and run settings |
+| [scripts/MACCO_Table1_Evaluation.ipynb](scripts/MACCO_Table1_Evaluation.ipynb) | The single Colab notebook; run it and replace it with your Colab copy containing measured outputs |
+| results/ | Table 1 comparison CSV, available Tables 17–20 component CSVs, ARO category CSVs, and run settings |
 
-The notebook has not been added yet. **scripts/** and **results/** currently contain placeholders so their directories appear in Git.
+The notebook is an unrun starting point. It does not contain measured results.
 
-Keep the checkpoint, dataset images, and download caches on Colab's temporary disk under **/content**. Save the notebook and small result records as you go, since a Colab runtime can reset. Commit the finished notebook and reviewed results to this repository; keep model weights and datasets outside GitHub.
+Keep the checkpoint, dataset images, and download caches on Colab's temporary disk under **/content**. The notebook writes small results to **/content/macco_results** and creates a ZIP to download. Download it and save your notebook before the Colab runtime ends. Commit the finished notebook and reviewed results to this repository; keep model weights and datasets outside GitHub.
 
 ## Result check
 
