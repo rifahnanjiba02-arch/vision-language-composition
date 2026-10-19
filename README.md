@@ -68,4 +68,3 @@ The model passes both Winoground checks on **14 of 171 examples** and gets **29 
 2. Let the notebook download the checkpoint and required datasets. The notebooks use `open_clip_torch==2.32.0` and Colab's temporary `/content` storage.
 3. Review the final comparison and download its CSV before the Colab runtime ends. The Table 1 upload-and-merge cell is optional and is only for resuming from an earlier CSV.
 
-The notebooks use their own scoring code. The Table 1 workflow has not been independently checked end to end against the authors' bundled evaluator, so differences from the paper are reported as measured.
