@@ -73,15 +73,18 @@ The model starts from OpenAI CLIP ViT-B/32 weights, with both CLIP encoders trai
 
 Here MCA is mask-augmented cross-modal alignment, MIR is mask-augmented intra-modal regularization, MLM reconstructs masked text tokens, and MIM reconstructs masked image patches. No loss function or weight was changed for this run.
 
-| Setting | Short run |
-| --- | --- |
-| Training pairs | 128 unique COCO images and captions |
-| Epochs and batch size | 2 epochs, 16 pairs per batch (8 batches per epoch) |
-| Optimizer and precision | AdamW, AMP |
-| Learning rates | CLIP: `5e-7`; predictors: `1e-3` |
-| Hardware | Tesla T4 GPU |
-| Validation | Disabled with `--no-val` |
-| Checkpoint setting | Save after each epoch |
+| Setting | Authors' training | Our short run |
+| --- | --- | --- |
+| Training records | 109,468 | 128 unique COCO image–caption pairs |
+| Epochs | 5 | 2 |
+| Batch size | 256 | 16 (8 batches per epoch) |
+| Data-loader workers | 14 | 2 |
+| Warmup steps | 50 | 5 |
+| GPU | NVIDIA A100 | Tesla T4 |
+| Benchmark validation | Included | Disabled with `--no-val` |
+| Checkpoint frequency | Every 5 epochs | Every epoch |
+
+Both configurations use AdamW, pretrained OpenAI CLIP ViT-B/32, a CLIP learning rate of `5e-7`, a predictor learning rate of `1e-3`, and the original loss weights.
 
 The [recorded log](results/out.log) shows both epochs reaching 128/128 training examples and reports these end-of-epoch running averages:
 
@@ -93,15 +96,11 @@ The [recorded log](results/out.log) shows both epochs reaching 128/128 training 
 | MLM | 10.48 | 8.666 |
 | MIM | 1.072 | 1.005 |
 
-The loss decrease shows progress on this small training subset. It does not establish generalization: no held-out validation or benchmark evaluation was run on the short-run model. This experiment also does not reproduce full-data, five-epoch training or the paper's reported benchmark performance. The log shows that checkpoint saving was configured after each epoch, but no checkpoint is included here or independently verified; the notebook notes that the authors' save routine includes CLIP weights but omits predictor and optimizer state needed for a faithful resume.
+The loss decrease shows progress on this small training subset. It does not establish generalization: no held-out validation or benchmark evaluation was run on the short-run model. This experiment also does not reproduce full-data, five-epoch training or the paper's reported benchmark performance.
 
 ## Run the evaluations
 
 1. Open a notebook in Google Colab and run its cells in order. Select a GPU runtime for Table 1; Table 21 supports CPU or GPU.
 2. Let the notebook download the checkpoint and required datasets. The notebooks use `open_clip_torch==2.32.0` and Colab's temporary `/content` storage.
 3. Review the final comparison and download its CSV before the Colab runtime ends. The Table 1 upload-and-merge cell is optional and is only for resuming from an earlier CSV.
-
-## Revisit the training run
-
-Open the [short-run notebook](scripts/MACCO_Train_Short_Run.ipynb) in a Colab GPU runtime. It fetches the authors' training source and prepared TSV into temporary `/content/macco_run/` storage, configures the reduced run, and applies the method-binding fix. The checked-in notebook is **not yet runnable straight through**: its image-selection cell does not download the 128 selected COCO files, and the example-inspection cell uses `Image` without importing it. Place the selected images under `/content/macco_run/datasets/` at the paths specified by the TSV and import `Image` from PIL before running the remaining cells. The saved notebook has no output for its training or checkpoint-download cells; use the [training log](results/out.log) for the completed run's recorded metrics.
 
