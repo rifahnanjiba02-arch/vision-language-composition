@@ -1,0 +1,216 @@
+2026-10-27 23:08:40 - INFO - Running with a single process. Device cuda:0.
+2026-10-27 23:08:40 - INFO - Loading ViT-B-32 model config.
+2026-10-27 23:08:42 - INFO - Loading pretrained ViT-B-32 weights (/root/.cache/huggingface/hub/models--hiker-lw--MACCO/snapshots/94a14712aebc851788523fc32b35f009aede8555/MACCO-CLIP-ViT-B-32.pt).
+2026-10-27 23:08:43 - INFO - Running with MACCO_CLIP text_image
+2026-10-27 23:08:43 - INFO - Model:
+2026-10-27 23:08:43 - INFO - MACCO_CLIP_text_image(
+  (CLIP): CLIP(
+    (visual): VisualTransformer(
+      (conv1): Conv2d(3, 768, kernel_size=(32, 32), stride=(32, 32), bias=False)
+      (ln_pre): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+      (transformer): Transformer(
+        (resblocks): ModuleList(
+          (0-11): 12 x ResidualAttentionBlock(
+            (attn): MultiheadAttention(
+              (out_proj): NonDynamicallyQuantizableLinear(in_features=768, out_features=768, bias=True)
+            )
+            (ln_1): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+            (mlp): Sequential(
+              (c_fc): Linear(in_features=768, out_features=3072, bias=True)
+              (gelu): GELU(approximate='none')
+              (c_proj): Linear(in_features=3072, out_features=768, bias=True)
+            )
+            (ln_2): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+          )
+        )
+      )
+      (ln_post): LayerNorm((768,), eps=1e-05, elementwise_affine=True)
+    )
+    (transformer): Transformer(
+      (resblocks): ModuleList(
+        (0-11): 12 x ResidualAttentionBlock(
+          (attn): MultiheadAttention(
+            (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+          )
+          (ln_1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+          (mlp): Sequential(
+            (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+            (gelu): GELU(approximate='none')
+            (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+          )
+          (ln_2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        )
+      )
+    )
+    (token_embedding): Embedding(49408, 512)
+    (ln_final): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+  )
+  (prediction_text): Text_Predictor(
+    (self_attn_blocks): ModuleList()
+    (cross_attn_blocks): ModuleList(
+      (0-1): 2 x ResidualCrossAttentionBlock(
+        (attn): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+        )
+        (ln_x): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        (ln_y): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        (mlp): Sequential(
+          (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+          (gelu): GELU(approximate='none')
+          (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+        )
+        (ln_post): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      )
+    )
+    (ln): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+    (linear): Linear(in_features=512, out_features=49408, bias=True)
+    (softmax): LogSoftmax(dim=-1)
+  )
+  (prediction_image): Image_Predictor(
+    (decoder_embed): Linear(in_features=512, out_features=512, bias=True)
+    (self_attn_blocks): ModuleList()
+    (cross_attn_blocks): ModuleList(
+      (0-2): 3 x ResidualCrossAttentionBlock(
+        (attn): MultiheadAttention(
+          (out_proj): NonDynamicallyQuantizableLinear(in_features=512, out_features=512, bias=True)
+        )
+        (ln_x): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        (ln_y): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        (mlp): Sequential(
+          (c_fc): Linear(in_features=512, out_features=2048, bias=True)
+          (gelu): GELU(approximate='none')
+          (c_proj): Linear(in_features=2048, out_features=512, bias=True)
+        )
+        (ln_post): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      )
+    )
+    (ln): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+    (proj): Sequential(
+      (0): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+      (1): Linear(in_features=512, out_features=3072, bias=True)
+    )
+  )
+)
+2026-10-27 23:08:43 - INFO - Params:
+2026-10-27 23:08:43 - INFO -   EMA: False
+2026-10-27 23:08:43 - INFO -   add_neg_sample: False
+2026-10-27 23:08:43 - INFO -   batch_size: 16
+2026-10-27 23:08:43 - INFO -   beta1: 0.9
+2026-10-27 23:08:43 - INFO -   beta2: 0.999
+2026-10-27 23:08:43 - INFO -   checkpoint_path: logs/cml_experiments/macco_released_W1_CML_v1-text_image-2026_10_27-23_08-model_ViT-B-32-lr_clip_5e-07-lr_predictor_0.001-b_16-loss_loss_text_image-mt_loss_w_25.0-mi_loss_w_250.0-IMC_loss_w_0.2/checkpoints
+2026-10-27 23:08:43 - INFO -   cml_margin: 0.05
+2026-10-27 23:08:43 - INFO -   cml_weight: 1.0
+2026-10-27 23:08:43 - INFO -   contrast_loss_w: 1.0
+2026-10-27 23:08:43 - INFO -   copy_codebase: False
+2026-10-27 23:08:43 - INFO -   csv_caption_key: title
+2026-10-27 23:08:43 - INFO -   csv_hard_captions_key: neg_caption
+2026-10-27 23:08:43 - INFO -   csv_img_key: filepath
+2026-10-27 23:08:43 - INFO -   csv_separator: 	
+2026-10-27 23:08:43 - INFO -   dataset_resampled: False
+2026-10-27 23:08:43 - INFO -   dataset_type: auto
+2026-10-27 23:08:43 - INFO -   ddp_static_graph: False
+2026-10-27 23:08:43 - INFO -   debug: False
+2026-10-27 23:08:43 - INFO -   device: cuda:0
+2026-10-27 23:08:43 - INFO -   dist_backend: nccl
+2026-10-27 23:08:43 - INFO -   dist_url: env://
+2026-10-27 23:08:43 - INFO -   distributed: False
+2026-10-27 23:08:43 - INFO -   epochs: 2
+2026-10-27 23:08:43 - INFO -   eps: 1e-08
+2026-10-27 23:08:43 - INFO -   first_stage_epochs: 0
+2026-10-27 23:08:43 - INFO -   force_quick_gelu: False
+2026-10-27 23:08:43 - INFO -   freeze_clip: False
+2026-10-27 23:08:43 - INFO -   freeze_image_encoder: False
+2026-10-27 23:08:43 - INFO -   freeze_text_encoder: False
+2026-10-27 23:08:43 - INFO -   gather_with_grad: False
+2026-10-27 23:08:43 - INFO -   grad_checkpointing: False
+2026-10-27 23:08:43 - INFO -   gradient_accumulation_steps: 1
+2026-10-27 23:08:43 - INFO -   horovod: False
+2026-10-27 23:08:43 - INFO -   image_predictor_cross_attn_layers: 3
+2026-10-27 23:08:43 - INFO -   image_predictor_self_attn_layers: 0
+2026-10-27 23:08:43 - INFO -   imagenet_v2: None
+2026-10-27 23:08:43 - INFO -   imagenet_val: None
+2026-10-27 23:08:43 - INFO -   intra_modal_contrast_loss_w: 0.2
+2026-10-27 23:08:43 - INFO -   local_loss: False
+2026-10-27 23:08:43 - INFO -   local_rank: 0
+2026-10-27 23:08:43 - INFO -   lock_image: False
+2026-10-27 23:08:43 - INFO -   lock_image_freeze_bn_stats: False
+2026-10-27 23:08:43 - INFO -   lock_image_unlocked_groups: 0
+2026-10-27 23:08:43 - INFO -   log_level: 20
+2026-10-27 23:08:43 - INFO -   log_local: False
+2026-10-27 23:08:43 - INFO -   log_path: logs/cml_experiments/macco_released_W1_CML_v1-text_image-2026_10_27-23_08-model_ViT-B-32-lr_clip_5e-07-lr_predictor_0.001-b_16-loss_loss_text_image-mt_loss_w_25.0-mi_loss_w_250.0-IMC_loss_w_0.2/out.log
+2026-10-27 23:08:43 - INFO -   logs: logs/cml_experiments
+2026-10-27 23:08:43 - INFO -   loss_fn: loss_text_image
+2026-10-27 23:08:43 - INFO -   lr: 0.0005
+2026-10-27 23:08:43 - INFO -   lr_clip: 5e-07
+2026-10-27 23:08:43 - INFO -   lr_predictor: 0.001
+2026-10-27 23:08:43 - INFO -   lr_pretrained_part: None
+2026-10-27 23:08:43 - INFO -   macco_clip_loss_w: 0.0
+2026-10-27 23:08:43 - INFO -   macco_clip_version: text_image
+2026-10-27 23:08:43 - INFO -   mask_image: False
+2026-10-27 23:08:43 - INFO -   mask_image_loss_w: 250.0
+2026-10-27 23:08:43 - INFO -   mask_ratio_image: None
+2026-10-27 23:08:43 - INFO -   mask_ratio_text: None
+2026-10-27 23:08:43 - INFO -   mask_region_reserve_ratio: 1.0
+2026-10-27 23:08:43 - INFO -   mask_text: False
+2026-10-27 23:08:43 - INFO -   mask_text_image: True
+2026-10-27 23:08:43 - INFO -   mask_text_loss_w: 25.0
+2026-10-27 23:08:43 - INFO -   mask_token_type: relation_and_attribute
+2026-10-27 23:08:43 - INFO -   model: ViT-B-32
+2026-10-27 23:08:43 - INFO -   name: macco_released_W1_CML_v1-text_image-2026_10_27-23_08-model_ViT-B-32-lr_clip_5e-07-lr_predictor_0.001-b_16-loss_loss_text_image-mt_loss_w_25.0-mi_loss_w_250.0-IMC_loss_w_0.2
+2026-10-27 23:08:43 - INFO -   no_set_device_rank: False
+2026-10-27 23:08:43 - INFO -   no_val: True
+2026-10-27 23:08:43 - INFO -   norm_gradient_clip: None
+2026-10-27 23:08:43 - INFO -   only_train_clip: False
+2026-10-27 23:08:43 - INFO -   precision: amp
+2026-10-27 23:08:43 - INFO -   pretrained: /root/.cache/huggingface/hub/models--hiker-lw--MACCO/snapshots/94a14712aebc851788523fc32b35f009aede8555/MACCO-CLIP-ViT-B-32.pt
+2026-10-27 23:08:43 - INFO -   pretrained_image: False
+2026-10-27 23:08:43 - INFO -   random_mask_image: False
+2026-10-27 23:08:43 - INFO -   random_mask_image_ratio: 0.75
+2026-10-27 23:08:43 - INFO -   random_mask_text: False
+2026-10-27 23:08:43 - INFO -   random_mask_text_ratio: 0.15
+2026-10-27 23:08:43 - INFO -   random_rectangular_mask_image: False
+2026-10-27 23:08:43 - INFO -   random_rectangular_mask_image_ratio: 0.75
+2026-10-27 23:08:43 - INFO -   random_rectangular_mask_prob: 0.1
+2026-10-27 23:08:43 - INFO -   rank: 0
+2026-10-27 23:08:43 - INFO -   rebuild_dataset_every_epoch: False
+2026-10-27 23:08:43 - INFO -   report_to: 
+2026-10-27 23:08:43 - INFO -   resume: None
+2026-10-27 23:08:43 - INFO -   save_frequency: 1
+2026-10-27 23:08:43 - INFO -   save_most_recent: False
+2026-10-27 23:08:43 - INFO -   second_stage_epochs: 5
+2026-10-27 23:08:43 - INFO -   seed: 42
+2026-10-27 23:08:43 - INFO -   seperate_relation_attribute: False
+2026-10-27 23:08:43 - INFO -   skip_scheduler: False
+2026-10-27 23:08:43 - INFO -   tensorboard: False
+2026-10-27 23:08:43 - INFO -   tensorboard_path: 
+2026-10-27 23:08:43 - INFO -   text_predictor_cross_attn_layers: 2
+2026-10-27 23:08:43 - INFO -   text_predictor_self_attn_layers: 0
+2026-10-27 23:08:43 - INFO -   torchscript: False
+2026-10-27 23:08:43 - INFO -   trace: False
+2026-10-27 23:08:43 - INFO -   train_data: cml_train.tsv
+2026-10-27 23:08:43 - INFO -   train_num_samples: None
+2026-10-27 23:08:43 - INFO -   two_stage: False
+2026-10-27 23:08:43 - INFO -   use_bn_sync: False
+2026-10-27 23:08:43 - INFO -   val_before_train: False
+2026-10-27 23:08:43 - INFO -   val_data: None
+2026-10-27 23:08:43 - INFO -   val_frequency: 1
+2026-10-27 23:08:43 - INFO -   val_num_samples: None
+2026-10-27 23:08:43 - INFO -   wandb: False
+2026-10-27 23:08:43 - INFO -   wandb_notes: 
+2026-10-27 23:08:43 - INFO -   warmup: 5
+2026-10-27 23:08:43 - INFO -   wd: 0.2
+2026-10-27 23:08:43 - INFO -   workers: 2
+2026-10-27 23:08:43 - INFO -   world_size: 1
+2026-10-27 23:08:43 - INFO -   zeroshot_frequency: 2
+2026-10-27 23:08:43 - INFO - Freeze CLIP: False
+2026-10-27 23:08:43 - INFO - Freeze CLIP image encoder: False
+2026-10-27 23:08:43 - INFO - Freeze CLIP text encoder: False
+2026-10-27 23:08:43 - INFO - Number of trainable parameters: 194233601
+2026-10-27 23:08:43 - INFO - Start epoch 0
+2026-10-27 23:08:48 - INFO - Train Epoch: 0 [ 16/512 (3%)] Total Loss: 524.29 (524.3) contrast_loss: 0.96679 (0.9668) intra_modal_contrast_loss: 0.72247 (0.7225) mask_loss_text: 10.924 (10.92) mask_loss_image: 1.0002 (1.000) cml_loss: 0.031366 (0.03137) Data (t): 0.464 Batch (t): 4.263, 3.75309/s LR_CLIP: 0.0000001000 LR_predictor: 0.0002000000 Logit Scale: 100.000
+2026-10-27 23:08:58 - INFO - Train Epoch: 0 [512/512 (100%)] Total Loss: 393.78 (459.0) contrast_loss: 0.46596 (0.7164) intra_modal_contrast_loss: 0.40472 (0.5636) mask_loss_text: 5.6459 (8.285) mask_loss_image: 1.0082 (1.004) cml_loss: 0.028028 (0.02970) Data (t): 0.000 Batch (t): 0.326, 51.2050/s LR_CLIP: 0.0000002963 LR_predictor: 0.0005926444 Logit Scale: 99.339
+2026-10-27 23:08:58 - INFO - skipping validation on compositional benchmark!
+2026-10-27 23:09:05 - INFO - Start epoch 1
+2026-10-27 23:09:06 - INFO - Train Epoch: 1 [ 16/512 (3%)] Total Loss: 391.69 (391.7) contrast_loss: 0.38492 (0.3849) intra_modal_contrast_loss: 0.24744 (0.2474) mask_loss_text: 5.3177 (5.318) mask_loss_image: 1.0331 (1.033) cml_loss: 0.038309 (0.03831) Data (t): 0.421 Batch (t): 0.913, 17.5251/s LR_CLIP: 0.0000002832 LR_predictor: 0.0005663628 Logit Scale: 99.348
+2026-10-27 23:09:16 - INFO - Train Epoch: 1 [512/512 (100%)] Total Loss: 359.70 (375.7) contrast_loss: 0.47107 (0.4280) intra_modal_contrast_loss: 0.39448 (0.3210) mask_loss_text: 4.6079 (4.963) mask_loss_image: 0.97571 (1.004) cml_loss: 0.029190 (0.03375) Data (t): 0.002 Batch (t): 0.334, 50.1488/s LR_CLIP: 0.0000000004 LR_predictor: 0.0000007087 Logit Scale: 99.488
+2026-10-27 23:09:16 - INFO - skipping validation on compositional benchmark!
