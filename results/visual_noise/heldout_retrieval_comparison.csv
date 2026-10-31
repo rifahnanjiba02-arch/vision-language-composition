@@ -1,0 +1,9 @@
+arm,sigma,after,before,change_pp
+mask_control,0.0,92.1875,92.1875,0.0
+mask_control,0.25,54.6875,54.6875,0.0
+mask_control,0.5,37.5,37.5,0.0
+mask_control,1.0,31.25,26.5625,4.6875
+visual_noise,0.0,90.625,92.1875,-1.5625
+visual_noise,0.25,67.1875,54.6875,12.5
+visual_noise,0.5,48.4375,37.5,10.9375
+visual_noise,1.0,28.125,26.5625,1.5625

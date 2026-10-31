@@ -1,0 +1,17 @@
+arm,stage,sigma,heldout_images,images_with_selected_patches,selected_patch_reconstruction_MSE
+mask_control,before,0.0,16,16,1.0004206895828247
+mask_control,before,0.25,16,16,1.0004346370697021
+mask_control,before,0.5,16,16,1.0004289150238037
+mask_control,before,1.0,16,16,1.0004256963729858
+mask_control,after,0.0,16,16,0.9376014173030853
+mask_control,after,0.25,16,16,0.937743216753006
+mask_control,after,0.5,16,16,0.9365078806877136
+mask_control,after,1.0,16,16,0.9364403933286667
+visual_noise,before,0.0,16,16,1.0004206895828247
+visual_noise,before,0.25,16,16,1.0004346370697021
+visual_noise,before,0.5,16,16,1.0004289150238037
+visual_noise,before,1.0,16,16,1.0004256963729858
+visual_noise,after,0.0,16,16,0.9372828304767609
+visual_noise,after,0.25,16,16,0.9388879537582397
+visual_noise,after,0.5,16,16,0.9364189654588699
+visual_noise,after,1.0,16,16,0.9354171603918076
