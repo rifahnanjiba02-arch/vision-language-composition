@@ -1,0 +1,5 @@
+Model,CIFAR-10 Top-1,CIFAR-10 Top-5,CIFAR-100 Top-1,CIFAR-100 Top-5
+Author MACCO,85.3,99.8,63.3,87.2
+Our W1+CML,85.7,99.7,63.4,87.6
+Our Pixel Noise,86.0,99.7,63.6,87.8
+Our Traffic,85.8,99.7,63.7,87.4
